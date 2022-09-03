@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Inline style so it can be loaded correctly my mail client (mailtrap), in a real env would be its own CSS file under static/ -->
+    <style>
+        h1 {
+            color: rgb(0, 199, 177);
+            font-size: 2.2rem;
+            font-weight: 500;
+        }
+
+        h2 {
+            color: rgb(56, 73, 103);
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+
+        table,
+        th,
+        td {
+            color: rgb(56, 73, 103);
+            border: 1px solid white;
+            border-collapse: collapse;
+            margin: 25px 0;
+        }
+
+        th {
+            padding: 15px 30px;
+            text-align: center;
+            font-size: 1.2rem;
+            background-color: rgb(0, 199, 177, 0.3);
+        }
+
+        td {
+            background-color: rgb(0, 199, 177, 0.1);
+            padding: 0 24px;
+        }
+
+        .header {
+            background-color: rgb(254, 80, 124, 0.4);
+            padding: 20px;
+        }
+
+        .logo {
+            width: 230px;
+            height: 70px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <!-- URL of logo retrieved from Stori Webpage -->
+        <img class="logo" alt="Stori - MX Logo" src="https://www.storicard.com/_next/static/media/logo.9a85efb3.svg">
+    </div>
+    <h1>Hello, {{username}}.</h1>
+
+    <p>We present you with your transaction summary.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Total Balance</th>
+                <th>Historical Credit Average</th>
+                <th>Historical Debit Average</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <h2>{{ summary.get("total_balance") }}</h2>
+                </td>
+                <td>
+                    <h2>{{ summary.get("historical_credit_average") }}</h2>
+                </td>
+                <td>
+                    <h2>{{ summary.get("historical_debit_average") }}</h2>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Overview</th>
+                <th>Credit Info</th>
+                <th>Debit Info</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, value in summary.get("monthly_detail").items() %}
+            <tr>
+                <td>
+                    <p>{{ month_mapper[key] }} </p>
+                </td>
+                <td>
+                    <p>Transactions: {{ value.get("total_number_of_transactions") }} </p>
+                </td>
+                <td>
+                    <p>Number of transactions: {{ value.get("credit_number_of_transactions") }}</p>
+                    <p>Average amount: {{ value.get("credit_average_amount") }}</p>
+                </td>
+                <td>
+                    <p>Number of transactions: {{ value.get("debit_number_of_transactions") }}</p>
+                    <p>Average amount: {{ value.get("debit_average_amount") }}</p>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p>Best,</p>
+    <h1>Stori Team</h1>
+</body>
+
+</html>
